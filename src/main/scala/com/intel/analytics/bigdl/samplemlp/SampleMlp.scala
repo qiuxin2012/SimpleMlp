@@ -16,7 +16,7 @@ object SampleMlp {
   Logger.getLogger("org").setLevel(Level.ERROR)
   Logger.getLogger("akka").setLevel(Level.ERROR)
   Logger.getLogger("breeze").setLevel(Level.ERROR)
-  Logger.getLogger("com.intel.analytics.bigdl.optim").setLevel(Level.INFO)
+  Logger.getLogger("com.intel.analytics").setLevel(Level.INFO)
 
   def main(args: Array[String]): Unit = {
     testParser.parse(args, new TestParams()).map(param => {
@@ -32,7 +32,7 @@ object SampleMlp {
           .set("spark.task.maxFailures", "1")
           .setMaster("local[1]")
       )
-      Engine.init
+      Engine.init(1, 1, true)
 
       // make up some data
       val data = sc.range(0, recordSize, 1).map { _ =>
@@ -58,8 +58,9 @@ object SampleMlp {
         add(layer4).
         add(output)
 
-      val state =
-        T(
+      println(model)
+
+      val state = T(
           "learningRate" -> 0.01
         )
       val criterion = MSECriterion[Double]()
@@ -67,17 +68,13 @@ object SampleMlp {
       val optimizer = Optimizer[Double, MiniBatch[Double]](model, trainSet, criterion)
 
       val trainSummary = TrainSummary(".", "sampleMlp")
-      val validationSummary = ValidationSummary(".", "sampleMlp")
 
       optimizer.
         setTrainSummary(trainSummary).
-        setValidationSummary(validationSummary).
         setState(state).
         setEndWhen(Trigger.maxEpoch(maxEpoch)).
         setOptimMethod(new Adagrad[Double]()).
         optimize()
-      trainSummary.close()
-      validationSummary.close()
     })
   }
 }
