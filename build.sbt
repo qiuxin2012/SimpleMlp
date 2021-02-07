@@ -1,14 +1,13 @@
-name := "samplemlp"
+name := "simplemlp"
 
 version := "0.1.0-SNAPSHOT"
 
-organization := "com.intel.analytics.bigdl"
+organization := "com.github.qiuxin2012"
 
 libraryDependencies ++= Seq(
-  "org.apache.spark" % "spark-core_2.11" % "2.1.0" % "compile",
-  "org.apache.spark" % "spark-mllib_2.11" % "2.1.0" % "compile",
-  "com.intel.analytics.bigdl" % "bigdl-SPARK_2.0" % "0.1.0",
-  "com.intel.analytics.bigdl.native" % "mkl-java-mac" % "0.1.0" from "http://maven.aliyun.com/nexus/content/groups/public/com/intel/analytics/bigdl/native/mkl-java-mac/0.1.0/mkl-java-mac-0.1.0.jar"
+  "org.apache.spark" % "spark-core_2.11" % "2.4.3" % "compile",
+  "org.apache.spark" % "spark-mllib_2.11" % "2.4.3" % "compile",
+  "com.intel.analytics.zoo" % "analytics-zoo-bigdl_0.12.1-spark_2.4.3" % "0.9.0"
 )
 
 resolvers ++= Seq(
@@ -17,7 +16,7 @@ resolvers ++= Seq(
 
 lazy val commonSettings = Seq(
   version := "0.1.0",
-  organization := "com.intel.analytics.bigdl",
+  organization := "com.github.qiuxin2012",
   scalaVersion := "2.11.8"
 )
 
